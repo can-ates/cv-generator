@@ -1,18 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, {useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { RootState } from "./reducers";
 
 import Gradient from "./images/Gradient.jpg";
-
+import Home from "./components/Home";
 import ApplicationForm from "./components/ApplicationForm";
+
+import {setTemplate} from './actions'
 
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Home from "./components/Home";
+
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,8 +35,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const App: React.FunctionComponent = () => {
 	const phase = useSelector((state: RootState) => state.phase.phase);
+	const dispatch = useDispatch()
 	const classes = useStyles();
 	
+	useEffect(() => {
+		if(localStorage.getItem('part') === '1'){
+			dispatch(setTemplate(localStorage.getItem('reportId')!))
+		}
+	}, [])
+
 	//Global Styles
 	const GlobalCss = withStyles({
 		"@global": {

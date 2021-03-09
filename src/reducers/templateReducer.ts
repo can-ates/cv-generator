@@ -1,7 +1,6 @@
 import { TEMPLATE } from "../constants";
 
 let initalState = {
-	formId: "",
 	reportId: "",
 	submissionId: "",
 	isDownloading: false,
@@ -14,8 +13,7 @@ const templateReducer = (state = initalState, action: any) => {
 		case TEMPLATE.SELECT:
 			return {
 				...state,
-				formId: action.payload.formId,
-				reportId: action.payload.reportId,
+				reportId: action.payload,
 			};
 		case TEMPLATE.DOWNLOAD:
 			return {

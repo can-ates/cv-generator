@@ -7,7 +7,8 @@ import Education from "./Education";
 import Skills from "./Skills";
 import WorkExperience from "./WorkExperince";
 
-import { submitForm, changeHandler } from "../actions";
+import { setTemplate, submitForm, changeHandler } from "../actions";
+import { RootState } from "../reducers";
 import { formSchema, formValues } from "../helpers";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
@@ -15,7 +16,8 @@ import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { RootState } from "../reducers";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -23,6 +25,20 @@ const useStyles = makeStyles((theme: Theme) =>
 			maxWidth: "40em",
 			width: "100%",
 			margin: "2em 0",
+			position: 'relative'
+		},
+		backButton:{
+			position: 'absolute',
+			color:'#ffffff',
+			zIndex: 2,
+			border: '2px solid black',
+			borderRadius: '0.3em',
+			fontSize: '50px',
+			backgroundColor: '#000000',
+			left: -25,
+			top: -20,
+			cursor: 'pointer',
+			
 		},
 		form: {
 			padding: "2em",
@@ -32,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.2 )",
 			borderRadius: "0.5em",
 		},
+
 	})
 );
 
@@ -42,9 +59,11 @@ const ApplicationForm: React.FunctionComponent = () => {
 
 	useEffect(() => {
 		Object.keys(localStorage).forEach(key => {
-			const fieldName = key;
-			const fieldValue = localStorage[key];
-			dispatch(changeHandler({fieldName,fieldValue }));
+			if (key.includes("{")) {
+				const fieldName = key;
+				const fieldValue = localStorage[key];
+				dispatch(changeHandler({ fieldName, fieldValue }));
+			}
 		});
 	}, []);
 
@@ -58,9 +77,9 @@ const ApplicationForm: React.FunctionComponent = () => {
 		localStorage.setItem(fieldName, fieldValue);
 	};
 
-	const handleSubmitt = (values: any, actions: any) => {
+	const handleSubmit = (values: any, actions: any) => {
 		let parsedValues: any = {};
-		const formData = state.form.formData
+		const formData = state.form.formData;
 
 		//we should replace curly braces with square brackets
 		//in order to SEND ACCURATE QUERY PARAMETER FOR JOTFORM API
@@ -72,9 +91,15 @@ const ApplicationForm: React.FunctionComponent = () => {
 		}
 
 		dispatch(submitForm(parsedValues));
-		// submitForm(parsedValues);
-		// localStorage.clear()
+		// submitForm(parsedValues) ;
+		
 	};
+
+	const goPrevious = () => {
+		localStorage.setItem('part', '0')
+		localStorage.removeItem('reportId')
+        dispatch(setTemplate(""))
+	}
 
 	return (
 		<Grid
@@ -85,10 +110,11 @@ const ApplicationForm: React.FunctionComponent = () => {
 			justify='center'
 		>
 			<Grid item className={classes.formContainer}>
+				<ArrowBackIcon onClick={goPrevious} fontSize='large' className={classes.backButton} />
 				<Formik
 					initialValues={formValues}
 					validationSchema={formSchema}
-					onSubmit={handleSubmitt}
+					onSubmit={handleSubmit}
 				>
 					{({ handleChange, values }) => (
 						<Form>

@@ -10,7 +10,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import {setTemplate} from '../actions'
 
 interface Props {
-    formId: string;
     reportId: string;
     img: string;
 }
@@ -43,14 +42,14 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const Template: React.FunctionComponent<Props> = ({formId, reportId, img}) => {
+const Template: React.FunctionComponent<Props> = ({ reportId, img}) => {
     const classes = useStyles()
     const dispatch = useDispatch()
 
     const selectTemplate = () => {
-        const formInfo = {formId, reportId}
-
-        dispatch(setTemplate(formInfo))
+		localStorage.setItem('part', '1')
+		localStorage.setItem('reportId', reportId)
+        dispatch(setTemplate(reportId))
     }
 
 	return (

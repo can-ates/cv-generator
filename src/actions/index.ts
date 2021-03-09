@@ -1,9 +1,5 @@
 import {TEMPLATE, PHASE, FORM} from '../constants'
 
-type formInfo = {
-    formId: string;
-    reportId: string;
-}
 
 type fieldType = {
     fieldName: string;
@@ -29,10 +25,14 @@ const submitFailed = () => ({
     type: FORM.SUBMIT_FAILED
 })
 
+const resetForm = () => ({
+    type: FORM.RESET
+})
+
 //TEMPLATE
-const setTemplate = (formInfo: formInfo) => ({
+const setTemplate = (reportId: string) => ({
     type: TEMPLATE.SELECT,
-    payload: formInfo
+    payload: reportId
 })
 
 const downloadTemplate = (subId: string) => ({
@@ -48,4 +48,4 @@ const downloadFailed = () => ({
     type: TEMPLATE.DOWNLOAD_FAILED
 })
 
-export {setTemplate, changeHandler, submitForm, submitSuccessful, submitFailed, downloadTemplate, downloadSuccessful,downloadFailed}
+export {setTemplate, changeHandler, submitForm, submitSuccessful, submitFailed, resetForm, downloadTemplate, downloadSuccessful,downloadFailed}

@@ -1,35 +1,47 @@
-import { put, call, takeEvery, select } from "redux-saga/effects";
+import { put, call, takeEvery, select, takeLatest } from "redux-saga/effects";
 
 import { TEMPLATE, PHASE } from "../constants";
-import {downloadSuccessful, downloadFailed} from '../actions'
-import {downloadPDF} from '../api'
+import { resetForm, downloadSuccessful, downloadFailed } from "../actions";
+import { downloadPDF } from "../api";
 
-export function* handleSelect() {
-
-    //PASSING FORM PAGE
-	yield put({
-		type: PHASE.NEXT,
-	});
+export function* handleSelect(): any {
+	const { template } = yield select();
+	
+	if (template.reportId === "") {
+		yield put({
+			type: PHASE.PREVIOUS,
+		});
+	} else {
+		//PASSING FORM PAGE
+		yield put({
+			type: PHASE.NEXT,
+		});
+	}
 }
 
-export function* handleDownload(): any{
-	const state = yield select()
-	const ids = {
-		formId: state.template.formId,
+export function* handleDownload(): any {
+	const state = yield select();
+	
+	const formInfo = {
+		firstName: state.form.formData["submission[4][first]"],
+		lastName: state.form.formData["submission[4][last]"],
 		reportId: state.template.reportId,
-		submissionId: state.template.submissionId
-	}
+		submissionId: state.template.submissionId,
+	};
 
 	try {
-		yield call(downloadPDF, ids)
-		yield put(downloadSuccessful())
-	} catch(e) {
-		yield put(downloadFailed())
+		yield call(downloadPDF, formInfo);
+		yield put(downloadSuccessful());
+		yield put(resetForm())
+		yield put({
+			type: PHASE.PREVIOUS
+		})
+	} catch (e) {
+		yield put(downloadFailed());
 	}
-	
 }
 
 export default function* watchTemplates() {
-	yield takeEvery(TEMPLATE.SELECT, handleSelect);
-	yield takeEvery(TEMPLATE.DOWNLOAD, handleDownload)
+	yield takeLatest(TEMPLATE.SELECT, handleSelect);
+	yield takeEvery(TEMPLATE.DOWNLOAD, handleDownload);
 }

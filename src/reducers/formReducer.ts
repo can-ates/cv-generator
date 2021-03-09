@@ -25,6 +25,12 @@ const formReducer = (state = initalState, action: any) => {
 				formSubmitting: true,
 				submitLoading: true,
 			};
+		case FORM.RESET:
+			localStorage.clear()
+			return {
+				...state,
+				formData: {}
+			}
 		case FORM.SUBMIT_SUCCESSFUL:
 			return {
 				...state,

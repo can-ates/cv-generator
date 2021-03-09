@@ -8,12 +8,10 @@ import Grid from "@material-ui/core/Grid";
 
 const templates = [
 	{
-		formId: "210605532361041",
 		reportId: "10210605129192045",
 		img: Template1,
 	},
 	{
-		formId: "210605532361041",
 		reportId: "10210605735661049",
 		img: Template2,
 	},
@@ -30,7 +28,6 @@ const Templates: React.FunctionComponent = () => {
 					<Grid item key={template.img} >
 						<Template
 							img={template.img}
-							formId={template.formId}
 							reportId={template.reportId}
 						/>
 					</Grid>
