@@ -5,10 +5,15 @@ type formInfo = {
     reportId: string;
 }
 
+type fieldType = {
+    fieldName: string;
+    fieldValue: string;
+}
 
-const setTemplate = (formInfo: formInfo) => ({
-    type: TEMPLATE.SELECT,
-    payload: formInfo
+//FORM
+const changeHandler = (field: fieldType) => ({
+    type: FORM.ONCHANGE,
+    payload: field
 })
 
 const submitForm = (formData: any) => ({
@@ -24,6 +29,12 @@ const submitFailed = () => ({
     type: FORM.SUBMIT_FAILED
 })
 
+//TEMPLATE
+const setTemplate = (formInfo: formInfo) => ({
+    type: TEMPLATE.SELECT,
+    payload: formInfo
+})
+
 const downloadTemplate = (subId: string) => ({
     type: TEMPLATE.DOWNLOAD,
     payload: subId
@@ -37,4 +48,4 @@ const downloadFailed = () => ({
     type: TEMPLATE.DOWNLOAD_FAILED
 })
 
-export {setTemplate, submitForm, submitSuccessful, submitFailed, downloadTemplate, downloadSuccessful,downloadFailed}
+export {setTemplate, changeHandler, submitForm, submitSuccessful, submitFailed, downloadTemplate, downloadSuccessful,downloadFailed}

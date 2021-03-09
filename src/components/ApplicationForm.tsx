@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import {useDispatch, useSelector} from 'react-redux'
+import React, { ChangeEvent, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 
 import Profile from "./Profile";
@@ -7,14 +7,14 @@ import Education from "./Education";
 import Skills from "./Skills";
 import WorkExperience from "./WorkExperince";
 
-import {submitForm} from '../actions'
+import { submitForm, changeHandler } from "../actions";
 import { formSchema, formValues } from "../helpers";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button"
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { RootState } from "../reducers";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		formContainer: {
 			maxWidth: "40em",
 			width: "100%",
-			margin: '2em 0'
+			margin: "2em 0",
 		},
 		form: {
 			padding: "2em",
@@ -36,9 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const ApplicationForm: React.FunctionComponent = () => {
-	const dispatch = useDispatch()
-	const state = useSelector((state: RootState) => state)
+	const dispatch = useDispatch();
+	const state = useSelector((state: RootState) => state);
 	const classes = useStyles();
+
+	useEffect(() => {
+		Object.keys(localStorage).forEach(key => {
+			const fieldName = key;
+			const fieldValue = localStorage[key];
+			dispatch(changeHandler({fieldName,fieldValue }));
+		});
+	}, []);
 
 	const saveRecords = (
 		e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
@@ -46,22 +54,24 @@ const ApplicationForm: React.FunctionComponent = () => {
 		const fieldName = e.target.name;
 		const fieldValue = e.target.value;
 
+		dispatch(changeHandler({ fieldName, fieldValue }));
 		localStorage.setItem(fieldName, fieldValue);
 	};
 
 	const handleSubmitt = (values: any, actions: any) => {
 		let parsedValues: any = {};
+		const formData = state.form.formData
 
 		//we should replace curly braces with square brackets
 		//in order to SEND ACCURATE QUERY PARAMETER FOR JOTFORM API
-		for (let key of Object.keys(values)) {
+		for (let key of Object.keys(formData)) {
 			if (key.match(/.*\{.*\}.*/)) {
 				const squared = key.replace(/\{/g, "[").replace(/}/g, "]");
-				parsedValues[squared] = values[key];
-			} else parsedValues[key] = values[key];
+				parsedValues[squared] = formData[key];
+			} else parsedValues[key] = formData[key];
 		}
 
-		dispatch(submitForm(parsedValues))
+		dispatch(submitForm(parsedValues));
 		// submitForm(parsedValues);
 		// localStorage.clear()
 	};
@@ -81,7 +91,6 @@ const ApplicationForm: React.FunctionComponent = () => {
 					onSubmit={handleSubmitt}
 				>
 					{({ handleChange, values }) => (
-						
 						<Form>
 							<Card className={classes.form}>
 								<Profile
@@ -104,9 +113,18 @@ const ApplicationForm: React.FunctionComponent = () => {
 									saveRecords={saveRecords}
 									values={values}
 								/>
-								<Button type='submit' fullWidth={true} size='large' variant='contained' >{
-									state.template.isDownloading ? <CircularProgress /> : 'Download'
-								}</Button>
+								<Button
+									type='submit'
+									fullWidth={true}
+									size='large'
+									variant='contained'
+								>
+									{state.template.isDownloading ? (
+										<CircularProgress />
+									) : (
+										"Download"
+									)}
+								</Button>
 							</Card>
 						</Form>
 					)}

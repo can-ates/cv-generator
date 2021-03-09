@@ -1,4 +1,4 @@
-import { put, call, takeLatest, select } from "redux-saga/effects";
+import { put, call, takeLatest, select, takeEvery } from "redux-saga/effects";
 
 import {submitForm} from '../api'
 import {submitSuccessful, submitFailed, downloadTemplate} from '../actions'
@@ -18,6 +18,11 @@ export function* handleSubmit(): any {
 	
 }
 
+export function* handleChange(): any {
+    
+}
+
 export default function* watchForm() {
 	yield takeLatest(FORM.SUBMIT, handleSubmit);
+    yield takeEvery(FORM.ONCHANGE, handleChange)
 }

@@ -14,9 +14,9 @@ const downloadPDF = async (ids: IDS) => {
 	);
 	const data = await response.json();
 
-	// eslint-disable-next-line no-restricted-globals
-	window.location = data.content
 	//DOWNLOAD PDF
+	window.location = data.content
+	
 	// const data2 = await fetch(`${DOWNLOAD_URL}/${ids.reportId}/${ids.reportId}.pdf?ufs=jotformpdfs?apikey=${process.env.REACT_APP_API_KEY}`)
 	// const data2 = await fetch('https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/4909553660717815299/4909553660717815299.pdf?md5=dMdRKW77tWYWnumonQnghg&expires=1615146414')
 	// const data2 = await fetch('https://api.jotform.com/uploads/canates.dev/210605532361041/4909553660717815299/4909553660717815299.pdf?ufs=jotformpdfs')

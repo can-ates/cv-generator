@@ -9,6 +9,15 @@ let initalState = {
 
 const formReducer = (state = initalState, action: any) => {
 	switch (action.type) {
+		case FORM.ONCHANGE:
+			const {fieldName, fieldValue} = action.payload
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					[fieldName]: fieldValue,
+				},
+			};
 		case FORM.SUBMIT:
 			return {
 				...state,

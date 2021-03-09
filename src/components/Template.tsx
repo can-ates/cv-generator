@@ -48,9 +48,9 @@ const Template: React.FunctionComponent<Props> = ({formId, reportId, img}) => {
     const dispatch = useDispatch()
 
     const selectTemplate = () => {
-        const formData = {formId, reportId}
+        const formInfo = {formId, reportId}
 
-        dispatch(setTemplate(formData))
+        dispatch(setTemplate(formInfo))
     }
 
 	return (
