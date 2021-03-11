@@ -14,7 +14,6 @@ type Props = {
 	values: any;
 	debounce?: any;
 	handleChange: any;
-	saveRecords: any;
 	containerClassName: string;
 };
 
@@ -31,9 +30,11 @@ const Profile: React.FunctionComponent<Props> = ({
 	values,
 	handleChange,
 	debounce,
-	saveRecords,
 	containerClassName,
 }) => {
+
+
+	
 	return (
 		<MuiAccordion className={containerClassName}>
 			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
@@ -55,10 +56,10 @@ const Profile: React.FunctionComponent<Props> = ({
 					({ name, label, type, style, variant, props }: Fields) => (
 						<TextField
 							key={name}
-							onChange={e => {
-								saveRecords(e);
-								handleChange(e);
-							}}
+							onChange={handleChange}
+							onInput={debounce((e: any) => {
+								return e
+							}, 1000)}
 							name={name}
 							label={label}
 							type={type ?? "string"}

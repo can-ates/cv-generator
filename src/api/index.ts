@@ -24,7 +24,7 @@ const downloadPDF = async (formInfo: formInfo) => {
 			}/${encodeURIComponent(
 				formInfo.firstName.trimStart().trimEnd().replace(/ +/g, "-")
 			)}-${encodeURIComponent(
-				formInfo.lastName.trimStart().trimEnd().replace(/ +/g, "-").trim()
+				formInfo.lastName.trimStart().trimEnd().replace(/ +/g, "-")
 			)}.pdf?ufs=jotformpdfs`;
 		}
 	}

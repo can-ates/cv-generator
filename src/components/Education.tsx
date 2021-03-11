@@ -14,7 +14,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 type Props = {
 	values: any;
-	saveRecords: any;
+	debounce?: any;
 	handleChange: any;
 	containerClassName: string;
 };
@@ -30,7 +30,7 @@ interface Fields {
 const Profile: React.FunctionComponent<Props> = ({
 	values,
 	handleChange,
-	saveRecords,
+	debounce,
 	containerClassName,
 }) => {
 	const [expanded, setExpanded] = useState<boolean | number>(0);
@@ -45,7 +45,7 @@ const Profile: React.FunctionComponent<Props> = ({
 
 	const handleClick = () => {
 		setPanelCount(pr => pr + 1);
-		setExpanded(1)
+		setExpanded(1);
 	};
 
 	return (
@@ -120,10 +120,10 @@ const Profile: React.FunctionComponent<Props> = ({
 						({ name, label, type, style, helperText }: Fields) => (
 							<TextField
 								key={name}
-								onChange={e => {
-									saveRecords(e);
-									handleChange(e);
-								}}
+								onChange={handleChange}
+								onInput={debounce((e: any) => {
+									return e;
+								}, 1000)}
 								name={name}
 								label={label}
 								type={type ?? "string"}

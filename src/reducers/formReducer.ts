@@ -11,6 +11,7 @@ const formReducer = (state = initalState, action: any) => {
 	switch (action.type) {
 		case FORM.ONCHANGE:
 			const {fieldName, fieldValue} = action.payload
+			localStorage.setItem(fieldName, fieldValue);
 			return {
 				...state,
 				formData: {

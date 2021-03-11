@@ -12,10 +12,11 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 type Props = {
 	values: any;
-	saveRecords: any;
+	debounce?: any;
 	handleChange: any;
 	containerClassName: string;
 };
+
 
 interface Fields {
 	name: string;
@@ -29,7 +30,7 @@ interface Fields {
 const Profile: React.FunctionComponent<Props> = ({
 	values,
 	handleChange,
-	saveRecords,
+	debounce,
 	containerClassName,
 }) => {
 	return (
@@ -53,10 +54,10 @@ const Profile: React.FunctionComponent<Props> = ({
 					({ name, label, type, style, props, variant }: Fields) => (
 						<TextField
 							key={name}
-							onChange={e => {
-								saveRecords(e);
-								handleChange(e);
-							}}
+							onChange={handleChange}
+							onInput={debounce((e: any) => {
+								return e;
+							}, 1000)}
 							name={name}
 							label={label}
 							type={type ?? "string"}

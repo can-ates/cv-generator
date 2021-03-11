@@ -69,28 +69,26 @@ const ApplicationForm: React.FunctionComponent = () => {
 		});
 	}, []);
 
-	// const dbnc = (fn: any, delay: number) => {
-	// 	let timeoutID: any;
+	const dbnc = (fn: any, delay: number) => {
+		let timeoutID: any;
 
-	// 	return function (...args: any) {
-			
-	// 		if (timeoutID) {
-	// 			clearTimeout(timeoutID);
-	// 		}
-	// 		timeoutID = setTimeout(() => {
-	// 			fn(args);
-	// 		}, delay);
-	// 	};
-	// };
+		return function (...args: any) {
+			if (timeoutID) {
+				clearTimeout(timeoutID);
+			}
+			timeoutID = setTimeout(() => {
+				saveRecords(fn(args[0]));
+			}, delay);
+		};
+	};
 
 	const saveRecords = (
 		e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
 		const fieldName = e.target.name;
 		const fieldValue = e.target.value;
-		console.log(e);
+
 		dispatch(changeHandler({ fieldName, fieldValue }));
-		localStorage.setItem(fieldName, fieldValue);
 	};
 
 	const handleSubmit = (values: any, actions: any) => {
@@ -108,7 +106,6 @@ const ApplicationForm: React.FunctionComponent = () => {
 
 		dispatch(submitForm(parsedValues));
 		actions.resetForm();
-		// submitForm(parsedValues) ;
 	};
 
 	const goPrevious = () => {
@@ -145,8 +142,7 @@ const ApplicationForm: React.FunctionComponent = () => {
 							<Card className={classes.form}>
 								<Profile
 									handleChange={handleChange}
-									// debounce={dbnc}
-									saveRecords={saveRecords}
+									debounce={dbnc}
 									values={values}
 									containerClassName={
 										classes.accordionWrapper
@@ -154,24 +150,24 @@ const ApplicationForm: React.FunctionComponent = () => {
 								/>
 								<Education
 									handleChange={handleChange}
-									saveRecords={saveRecords}
 									values={values}
+									debounce={dbnc}
 									containerClassName={
 										classes.accordionWrapper
 									}
 								/>
 								<Skills
 									handleChange={handleChange}
-									saveRecords={saveRecords}
 									values={values}
+									debounce={dbnc}
 									containerClassName={
 										classes.accordionWrapper
 									}
 								/>
 								<WorkExperience
 									handleChange={handleChange}
-									saveRecords={saveRecords}
 									values={values}
+									debounce={dbnc}
 									containerClassName={
 										classes.accordionWrapper
 									}
