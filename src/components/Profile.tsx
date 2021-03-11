@@ -1,118 +1,76 @@
 import React from "react";
 
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import Divider from "@material-ui/core/Divider";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import { profileFields } from "../helpers";
 
 type Props = {
 	values: any;
-	saveRecords: any;
+	debounce?: any;
 	handleChange: any;
+	saveRecords: any;
+	containerClassName: string;
 };
+
+interface Fields {
+	name: string;
+	label: string;
+	style?: any;
+	type?: string;
+	variant?: string;
+	props?: any;
+}
 
 const Profile: React.FunctionComponent<Props> = ({
 	values,
 	handleChange,
+	debounce,
 	saveRecords,
+	containerClassName,
 }) => {
 	return (
-		<React.Fragment>
-			<CardHeader
-				avatar={<AccountCircleIcon fontSize='large' />}
-				title='Personal Information'
-                style={{
-                    padding: '0',
-                    marginBottom: '1em'
-                }}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
+		<MuiAccordion className={containerClassName}>
+			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
+				<CardHeader
+					avatar={<AccountCircleIcon fontSize='large' />}
+					title='Personal Information'
+					style={{
+						padding: "0",
+					}}
+				/>
+			</MuiAccordionSummary>
+			<Divider />
+			<div
+				style={{
+					padding: "0 1em",
 				}}
-				name='submission{4}{first}'
-				label='Name'
-				value={values["submission{4}{first}"]}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{4}{last}'
-				label='Surname'
-				value={values["submission{4}{last}"]}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{5}'
-				label='Email'
-				value={values["submission{5}"]}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{6}{area}'
-				label='Area'
-				value={values["submission{6}{area}"]}
-				type='tel'
-                style={{
-                    maxWidth: '35px'
-                }}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{6}{phone}'
-				label='Phone'
-				value={values["submission{6}{phone}"]}
-				type='tel'
-                style={{
-                    maxWidth: '100px'
-                }}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{130}'
-				label='Website'
-				value={values["submission{130}"]}
-                type='url'
-			/>
-
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{129}'
-				label='Applied Position'
-				value={values["submission{129}"]}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{28}'
-				label='Profile'
-				value={values["submission{28}"]}
-                fullWidth
-                rowsMax={6}
-                multiline
-                rows={3}
-                variant='outlined'
-			/>
-		</React.Fragment>
+			>
+				{profileFields.map(
+					({ name, label, type, style, variant, props }: Fields) => (
+						<TextField
+							key={name}
+							onChange={e => {
+								saveRecords(e);
+								handleChange(e);
+							}}
+							name={name}
+							label={label}
+							type={type ?? "string"}
+							style={style ?? undefined}
+							value={values[name]}
+							{...props}
+							variant={variant ?? "standard"}
+						/>
+					)
+				)}
+			</div>
+		</MuiAccordion>
 	);
 };
 

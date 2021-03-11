@@ -27,9 +27,7 @@ const phaseReducer: Reducer = (state: IState = initalState, action: any) => {
 			};
 		case PHASE.PREVIOUS:
 			const phase = state.phase.part;
-			console.log(phase)
 			if (phase != 0) {
-				console.log('a')
 				return {
 					...state,
 					phase: {

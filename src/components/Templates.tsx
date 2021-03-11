@@ -25,7 +25,7 @@ const Templates: React.FunctionComponent = () => {
 		<Grid container direction='row' spacing={5}>
 			{templates.map(template => {
 				return (
-					<Grid item key={template.img} >
+					<Grid item key={template.img}>
 						<Template
 							img={template.img}
 							reportId={template.reportId}

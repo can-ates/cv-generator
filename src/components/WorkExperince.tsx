@@ -1,152 +1,170 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { workExperienceFields } from "../helpers";
+
+import WorkIcon from "@material-ui/icons/Work";
+import MuiAccordion from "@material-ui/core/Accordion";
+import MuiAccordionSummary from "@material-ui/core/AccordionSummary";
+import Divider from "@material-ui/core/Divider";
 import CardHeader from "@material-ui/core/CardHeader";
 import TextField from "@material-ui/core/TextField";
-import WorkIcon from '@material-ui/icons/Work';
+import Button from "@material-ui/core/Button";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 type Props = {
 	values: any;
 	saveRecords: any;
 	handleChange: any;
+	containerClassName: string;
 };
+
+interface Fields {
+	name: string;
+	label: string;
+	style?: any;
+	type?: string;
+	variant?: string;
+	props?: any;
+	helperText?: string;
+}
 
 const Profile: React.FunctionComponent<Props> = ({
 	values,
 	handleChange,
 	saveRecords,
+	containerClassName,
 }) => {
+	const [expanded, setExpanded] = useState<boolean | number>(0);
+	const [panelCount, setPanelCount] = useState(1);
+
+	const handleAccordion = (panel: number) => (
+		event: React.ChangeEvent,
+		isExpanded: boolean
+	) => {
+		setExpanded(isExpanded ? panel : false);
+	};
+
+	const handleClick = () => {
+		setPanelCount(pr => pr + 1);
+		setExpanded(1);
+	};
 	return (
-		<React.Fragment>
-			<CardHeader
-				avatar={<WorkIcon fontSize='large' />}
-				title='Work Experince'
-                style={{
-                    padding: '0',
-                    marginBottom: '1em'
-                }}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
+		<MuiAccordion className={containerClassName}>
+			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
+				<CardHeader
+					avatar={<WorkIcon fontSize='large' />}
+					title='Work Experince'
+					style={{
+						padding: "0",
+					}}
+				/>
+			</MuiAccordionSummary>
+			<Divider />
+			{Array.from({ length: panelCount }).map((_, i) => (
+				<MuiAccordion
+					style={{
+						padding: "0 1em",
+						marginTop: "1em",
+						backgroundColor: "#C4DDFD",
+					}}
+					//@ts-ignore
+					onChange={handleAccordion(i)}
+					expanded={expanded === i}
+				>
+					<MuiAccordionSummary>
+						<CardHeader
+							title={`WorkExperience#${i + 1}`}
+							style={{
+								padding: "0",
+							}}
+							subheader={`${
+								values[
+									`submission{${
+										82 + (i === 1 ? 57 : 0)
+									}}{day}`
+								]
+							}/${
+								values[
+									`submission{${
+										82 + (i === 1 ? 57 : 0)
+									}}{month}`
+								]
+							}/${
+								values[
+									`submission{${
+										82 + (i === 1 ? 57 : 0)
+									}}{year}`
+								]
+							} - ${
+								values[
+									`submission{${
+										83 + (i === 1 ? 57 : 0)
+									}}{day}`
+								]
+							}/${
+								values[
+									`submission{${
+										83 + (i === 1 ? 57 : 0)
+									}}{month}`
+								]
+							}/${
+								values[
+									`submission{${
+										83 + (i === 1 ? 57 : 0)
+									}}{year}`
+								]
+							}`}
+						/>
+					</MuiAccordionSummary>
+					{workExperienceFields[i].map(
+						({
+							name,
+							label,
+							type,
+							style,
+							helperText,
+							variant,
+							props,
+						}: Fields) => (
+							<TextField
+								key={name}
+								onChange={e => {
+									saveRecords(e);
+									handleChange(e);
+								}}
+								name={name}
+								label={label}
+								type={type ?? "string"}
+								style={style ?? undefined}
+								value={values[name]}
+								{...props}
+								variant={variant ?? "standard"}
+								helperText={helperText ?? ""}
+							/>
+						)
+					)}
+					<Divider />
+				</MuiAccordion>
+			))}
+			<Button
+				fullWidth
+				style={{
+					backgroundColor: "#C4DDFD",
+					margin: "1em 0",
 				}}
-				name='submission{79}'
-				label='Company'
-				value={values["submission{79}"]}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{77}'
-				label='Job Title'
-				value={values["submission{77}"]}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{128}'
-				label='City'
-				value={values["submission{128}"]}
-			/>
-			<TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{82}{day}'
-				label='DD'
-				value={values["submission{82}{day}"]}
-                type='number'
-                style={{
-                    maxWidth: '35px'
-                }}
-                helperText='Start Date'
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{82}{month}'
-				label='MM'
-				value={values["submission{82}{month}"]}
-                type='number'
-                style={{
-                    maxWidth: '35px'
-                }}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{82}{year}'
-				label='YY'
-				value={values["submission{82}{year}"]}
-                type='number'
-                style={{
-                    maxWidth: '50px'
-                }}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{83}{day}'
-				label='DD'
-				value={values["submission{83}{day}"]}
-                type='number'
-                style={{
-                    maxWidth: '35px'
-                }}
-                helperText='End Date'
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{83}{month}'
-				label='MM'
-				value={values["submission{83}{month}"]}
-                type='number'
-                style={{
-                    maxWidth: '35px'
-                }}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{83}{year}'
-				label='YY'
-				value={values["submission{83}{year}"]}
-                type='number'
-                style={{
-                    maxWidth: '50px'
-                }}
-			/>
-            <TextField
-				onChange={e => {
-					saveRecords(e);
-					handleChange(e);
-				}}
-				name='submission{85}'
-				label='Description of Duties'
-				value={values["submission{85}"]}
-                variant='outlined'
-                fullWidth
-                multiline
-                rowsMax={7}
-                rows={4}
-			/>
-		</React.Fragment>
+				onClick={handleClick}
+				disabled={panelCount === 2}
+			>
+				<AddCircleOutlineIcon
+					style={{
+						marginRight: "0.3em",
+					}}
+					fontSize='small'
+				/>
+				Add another work experience
+			</Button>
+		</MuiAccordion>
 	);
 };
 
