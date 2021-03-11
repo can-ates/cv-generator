@@ -22,9 +22,9 @@ const downloadPDF = async (formInfo: formInfo) => {
 			window.location.href = `https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/${
 				formInfo.submissionId
 			}/${encodeURIComponent(
-				formInfo.firstName.replace(/ +/g, "-").trim()
+				formInfo.firstName.trimStart().trimEnd().replace(/ +/g, "-")
 			)}-${encodeURIComponent(
-				formInfo.lastName.replace(/ +/g, "-").trim()
+				formInfo.lastName.trimStart().trimEnd().replace(/ +/g, "-").trim()
 			)}.pdf?ufs=jotformpdfs`;
 		}
 	}
