@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		card: {
 			width: "100%",
-			maxWidth: 250,
+			maxWidth: 200,
 			padding: "0.5em",
 			background: "rgba(255, 255, 255, 0.1)",
 			boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.5 )",

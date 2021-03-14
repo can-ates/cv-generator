@@ -16,17 +16,18 @@ const downloadPDF = async (formInfo: formInfo) => {
 
 	if (data) {
 		//DOWNLOAD PDF
-		if (formInfo.reportId === "10210605129192045") {
+		console.log(formInfo.reportId)
+		// if (formInfo.reportId === '10210706283850049') {
+		// 	window.location.href = `https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/${
+		// 		formInfo.submissionId
+		// 	}/${encodeURIComponent(
+		// 		formInfo.firstName.trimStart().trimEnd().replace(/ +/g, "-")
+		// 	)}-${encodeURIComponent(
+		// 		formInfo.lastName.trimStart().trimEnd().replace(/ +/g, "-")
+		// 	)}.pdf?ufs=jotformpdfs`;
+		// } else {
 			window.location.href = `https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/${formInfo.submissionId}/${formInfo.submissionId}.pdf?ufs=jotformpdfs`;
-		} else {
-			window.location.href = `https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/${
-				formInfo.submissionId
-			}/${encodeURIComponent(
-				formInfo.firstName.trimStart().trimEnd().replace(/ +/g, "-")
-			)}-${encodeURIComponent(
-				formInfo.lastName.trimStart().trimEnd().replace(/ +/g, "-")
-			)}.pdf?ufs=jotformpdfs`;
-		}
+		// }
 	}
 
 	//`https://files.jotform.com/jotformpdfs/canates.dev/210605532361041/${formInfo.submissionId}/${formInfo.firstName}-${formInfo.lastName}.pdf`;

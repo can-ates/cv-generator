@@ -61,13 +61,13 @@ const Profile: React.FunctionComponent<Props> = ({
 					}}
 				/>
 			</MuiAccordionSummary>
-			<Divider />
+			
 			{Array.from({ length: panelCount }).map((_, i) => (
 				<MuiAccordion
 					style={{
 						padding: "0 1em",
 						marginTop: "1em",
-						backgroundColor: "#C4DDFD",
+						backgroundColor: "#d1ddec",
 					}}
 					//@ts-ignore
 					onChange={handleAccordion(i)}

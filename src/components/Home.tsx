@@ -12,15 +12,19 @@ const Home = () => {
 			container
 			direction='column'
 			alignItems='center'
-			justify='space-evenly'
+			justify="center"
+			spacing={9}
+			style={{
+				margin: 0
+			}}
 		>
-			<Grid item>
+			<Grid item >
 				<Header />
 			</Grid>
 			<Grid item>
 				<Typography variant='h3'>Choose a template</Typography>
 			</Grid>
-			<Grid item>
+			<Grid item >
 				<Templates />
 			</Grid>
 		</Grid>
