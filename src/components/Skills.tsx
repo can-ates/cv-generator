@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import { skillsFields } from "../helpers";
 
@@ -33,8 +33,23 @@ const Profile: React.FunctionComponent<Props> = ({
 	debounce,
 	containerClassName,
 }) => {
+
+	const [defaultExpanded, setDefaultExpanded] = useState(false)
+
+
+	useEffect(() => {
+		if(values['submission{124}'] != ''){
+			setDefaultExpanded(true)
+			
+		}
+	}, [])
+
+	const handleAccordion2 = () => {
+		setDefaultExpanded(pr => !pr)
+	}
+
 	return (
-		<MuiAccordion className={containerClassName}>
+		<MuiAccordion onChange={handleAccordion2} expanded={defaultExpanded} className={containerClassName}>
 			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
 				<CardHeader
 					avatar={<WidgetsIcon fontSize='large' />}

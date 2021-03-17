@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import MuiAccordion from "@material-ui/core/Accordion";
@@ -32,11 +32,22 @@ const Profile: React.FunctionComponent<Props> = ({
 	debounce,
 	containerClassName,
 }) => {
+	const [defaultExpanded, setDefaultExpanded] = useState(false)
 
 
+	useEffect(() => {
+		if(values['submission{4}{first}'] != ''){
+			setDefaultExpanded(true)
+			
+		}
+	}, [])
+
+	const handleAccordion2 = () => {
+		setDefaultExpanded(pr => !pr)
+	}
 	
 	return (
-		<MuiAccordion className={containerClassName}>
+		<MuiAccordion onChange={handleAccordion2} expanded={defaultExpanded} className={containerClassName}>
 			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
 				<CardHeader
 					avatar={<AccountCircleIcon fontSize='large' />}
@@ -50,6 +61,7 @@ const Profile: React.FunctionComponent<Props> = ({
 			<div
 				style={{
 					padding: "0 1em",
+					marginTop: '0.5em'
 				}}
 			>
 				{profileFields.map(

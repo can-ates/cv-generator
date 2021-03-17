@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { educationFields } from "../helpers";
 
@@ -33,8 +33,18 @@ const Profile: React.FunctionComponent<Props> = ({
 	debounce,
 	containerClassName,
 }) => {
+	const [defaultExpanded, setDefaultExpanded] = useState(false)
 	const [expanded, setExpanded] = useState<boolean | number>(0);
 	const [panelCount, setPanelCount] = useState(1);
+
+	useEffect(() => {
+		if(values['submission{34}'] != ''){
+			setDefaultExpanded(true)
+			if(values['submission{132}'] != ''){
+				setPanelCount(pr => pr + 1);
+			}
+		}
+	}, [])
 
 	const handleAccordion = (panel: number) => (
 		event: React.ChangeEvent,
@@ -43,13 +53,17 @@ const Profile: React.FunctionComponent<Props> = ({
 		setExpanded(isExpanded ? panel : false);
 	};
 
+	const handleAccordion2 = () => {
+		setDefaultExpanded(pr => !pr)
+	}
+
 	const handleClick = () => {
 		setPanelCount(pr => pr + 1);
 		setExpanded(1);
 	};
 
 	return (
-		<MuiAccordion className={containerClassName}>
+		<MuiAccordion onChange={handleAccordion2} expanded={defaultExpanded} className={containerClassName}>
 			<MuiAccordionSummary expandIcon={<ArrowDownwardIcon />}>
 				<CardHeader
 					avatar={<MenuBookIcon fontSize='large' />}
