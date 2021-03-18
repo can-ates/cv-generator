@@ -46,7 +46,7 @@ const submitForm = async (formData: any) => {
 	}
 
 	const response = await fetch(
-		`${SUBMIT_URL}/submissions?apikey=${process.env.REACT_APP_API_KEY}`,
+		`${SUBMIT_URL}/submissions?apikey=${process.env.REACT_APP_API_KEY}&master=1`,
 		{
 			method: "POST",
 
