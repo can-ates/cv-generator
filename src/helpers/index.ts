@@ -325,7 +325,7 @@ export const workExperienceFields = [
 			style: {
 				maxWidth: "35px",
 			},
-			helperText: "Start Date",
+			helperText: "End Date",
 		},
 		{
 			name: "submission{83}{month}",
@@ -342,7 +342,7 @@ export const workExperienceFields = [
 			style: {
 				maxWidth: "50px",
 			},
-			helperText: "End Date",
+			
 		},
 		{
 			name: "submission{85}",
@@ -418,7 +418,6 @@ export const workExperienceFields = [
 			style: {
 				maxWidth: "50px",
 			},
-			helperText: "End Date",
 		},
 		{
 			name: "submission{141}",
